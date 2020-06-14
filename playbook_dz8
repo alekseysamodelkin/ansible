@@ -1,0 +1,48 @@
+---
+- name: install Java
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure Java is present & update repo
+      apt:
+        name: openjdk
+        state: present
+        update_cache: yes
+
+
+- name: install Maven & git
+  hosts: maven
+  become: yes
+
+  tasks:
+    - name: Ensure Maven is present
+      apt:
+        name: maven
+        state: present
+    - name: Ensure Git is present
+      apt:
+        name: git
+        state: present
+    - name: Git clone Boxfuse
+      git:
+        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        dest: /home/user/boxfuse
+    - name: Ensure .war file is done
+      shell: maven package
+      args:
+        chdir: /home/user/boxfuse
+
+- name: install Tomcat8
+  hosts: tomcat
+  become: yes
+
+  tasks:
+    - name: Ensure Tomcat is present
+      apt:
+        name: tomcat8
+        state: present
+    - name: Restart Tomcat after copy .war
+      service:
+        name: tomcat8
+        state: restarted
