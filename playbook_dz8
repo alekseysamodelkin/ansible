@@ -6,7 +6,7 @@
   tasks:
     - name: Ensure Java is present & update repo
       apt:
-        name: openjdk
+        name: default-jdk
         state: present
         update_cache: yes
 
@@ -29,9 +29,13 @@
         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
         dest: /home/user/boxfuse
     - name: Ensure .war file is done
-      shell: maven package
+      shell: mvn package
       args:
         chdir: /home/user/boxfuse
+    - name: Ensure war is pulled into localhost
+      fetch:
+        src: /home/user/boxfuse/target/hello-1.0.war
+        dest: /tmp/
 
 - name: install Tomcat8
   hosts: tomcat
@@ -42,6 +46,10 @@
       apt:
         name: tomcat8
         state: present
+    - name: Ensure hello-1.0.war is present
+      copy:
+        src: /tmp/10.128.0.37/home/user/boxfuse/target/hello.1.0.war
+        dest: /var/lib/tomcat8/webapps/
     - name: Restart Tomcat after copy .war
       service:
         name: tomcat8
