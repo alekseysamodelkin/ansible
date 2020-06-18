@@ -6,7 +6,7 @@
    state: present
 
 - name: Ensure .war is present
-  sinchronize:
+  synchronize:
    mode: pull
    src: rsync://root@10.128.0.37:/home/user/boxfuse/dz9/target/hello-1.0.war
    dest: /var/lib/tomcat8/webapps/
