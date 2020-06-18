@@ -1,0 +1,18 @@
+---
+# tasks file for mav
+- name: Ensure Maven && git is present
+  apt: name={{item}} state=present
+  with_items:
+    - maven
+    - git
+      
+- name: Git clone Boxfuse
+  git:
+    repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+    dest: /home/user/boxfuse/dz9/
+
+- name: Ensure .war file is done
+  shell: mvn package
+  args:
+   chdir: /home/user/boxfuse/dz9
+

@@ -1,0 +1,17 @@
+---
+# tasks file for tom
+- name: Ensure Tomcat is present
+  apt:
+   name: tomcat8
+   state: present
+
+- name: Ensure .war is present
+  sinchronize:
+   mode: pull
+   src: rsync://root@10.128.0.37:/home/user/boxfuse/dz9/target/hello-1.0.war
+   dest: /var/lib/tomcat8/webapps/
+
+- name: Restart Tomcat after copy .war
+  service:
+   name: tomcat8
+   state: restarted

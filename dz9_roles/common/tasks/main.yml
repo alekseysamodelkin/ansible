@@ -1,0 +1,10 @@
+---
+# tasks file for common
+- name: Ensure Java is present & update repo
+  apt: name={{item}} state=present update_cache=yes
+  with_items:
+    - default-jdk
+    - tree
+    - mc
+    - htop
+    - rsync

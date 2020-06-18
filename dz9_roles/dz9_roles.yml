@@ -1,0 +1,17 @@
+---
+
+- name: mav configuration
+  hosts: mav
+  become: yes
+
+  roles:
+  - common
+  - mav
+
+- name: tom configuration
+  hosts: tom
+  become: yes
+  
+  roles:
+  - common  
+  - tom
