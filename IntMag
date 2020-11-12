@@ -1,0 +1,12 @@
+---
+- name: add new user
+  hosts: web:dbservers:solr:gfs:ang_u
+  become: yes
+
+  tasks:
+    name: Creating user "{{ novardis }}" with master group
+    user:
+      name: {{ novardis }}
+      password:  {{ $Ckj;ysqg@hjkm | password_hash('sha512') }}
+      group: master
+      append: yes
