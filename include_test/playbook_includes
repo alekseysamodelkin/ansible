@@ -1,0 +1,15 @@
+---
+- name: test includes
+  hosts: servers
+  any_errors_fatal : true
+  become: yes
+
+  vars:
+    mytext: "Hello from Samodelkin"
+
+  tasks:
+    - name: ping test
+      ping:
+
+    - include: create_folders.yml
+    - include: create_files.yml
